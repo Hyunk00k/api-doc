@@ -9,18 +9,36 @@ endif::[]
 :sectlinks:
 :site-url: /build/asciidoc/html5/
 
+= API-SAMPLE
+
+== GET
+
+=== [CURL Commnad]
+include::{snippets}/api-sample-select-one/curl-request.adoc[]
+httpie-request.adoc
+
+=== [Request URL & Headers]
+include::{snippets}/api-sample-select-one/http-request.adoc[]
+
+=== [Path Parameters]
+include::{snippets}/api-sample-select-one/path-parameters.adoc[]
+
+
+=== [Response Fields]
+include::{snippets}/api-sample-select-one/http-response.adoc[]
+include::{snippets}/api-sample-select-one/response-fields.adoc[]
+
+== POST
 
 === [CURL Commnad]
 include::{snippets}/api-sample-create/curl-request.adoc[]
 httpie-request.adoc
-=== [Request URL]
-include::{snippets}/api-sample-create/http-request.adoc[]
 
-=== [Request Headers]
+=== [Request URL & Headers]
 include::{snippets}/api-sample-create/http-request.adoc[]
+include::{snippets}/api-sample-create/request-fields.adoc[]
 
 === [Response Fields]
-include::{snippets}/api-sample-create/response-body.adoc[]
+include::{snippets}/api-sample-create/http-response.adoc[]
+include::{snippets}/api-sample-create/request-fields.adoc[]
 
-=== [Response HTTP Example]
-include::{snippets}/api-sample-create/response-body.adoc[]

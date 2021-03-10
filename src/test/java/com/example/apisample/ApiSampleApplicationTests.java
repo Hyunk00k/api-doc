@@ -54,7 +54,7 @@ class ApiSampleApplicationTests {
     }
 
     @Test
-    public void shouldCreateRecords() throws Exception {
+    public void shouldCreateRecord() throws Exception {
 
         long id = 0l;
         //given
@@ -110,7 +110,7 @@ class ApiSampleApplicationTests {
                 .andExpect(jsonPath("$[0].title").value("title"))
                 .andExpect(jsonPath("$[1].title").value("title1"))
                 .andDo(print())
-                .andDo(document("api-sample-select-one",
+                .andDo(document("api-sample-select-many",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }
@@ -134,11 +134,11 @@ class ApiSampleApplicationTests {
                 .andExpect(jsonPath("$.title").value("title"))
                 .andExpect(jsonPath("$.description").value("description"))
                 .andDo(print())
-                .andDo(document("api-sample-select-many",
+                .andDo(document("api-sample-select-one",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
-                                parameterWithName("id").description("ID")
+                                parameterWithName("id").description("ID").optional()
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
