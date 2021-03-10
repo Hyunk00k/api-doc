@@ -1,0 +1,26 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:site-url: /build/asciidoc/html5/
+
+
+=== [CURL Commnad]
+include::{snippets}/api-sample-create/curl-request.adoc[]
+httpie-request.adoc
+=== [Request URL]
+include::{snippets}/api-sample-create/http-request.adoc[]
+
+=== [Request Headers]
+include::{snippets}/api-sample-create/http-request.adoc[]
+
+=== [Response Fields]
+include::{snippets}/api-sample-create/response-body.adoc[]
+
+=== [Response HTTP Example]
+include::{snippets}/api-sample-create/response-body.adoc[]
