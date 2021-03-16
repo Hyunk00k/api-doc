@@ -48,7 +48,7 @@ dependencies {
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.5'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-webmvc-core', version: '1.5.5'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-data-rest', version: '1.5.5'
-    implementation 'junit:junit:4.12'
+    testImplementation(platform('org.junit:junit-bom:5.7.1'))
     runtimeOnly 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
