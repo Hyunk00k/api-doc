@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  s3:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - 9000:9000
+    environment:
+      MINIO_ACCESS_KEY: rest_docs_access
+      MINIO_SECRET_KEY: rest_docs_secret
+    command: server /export
