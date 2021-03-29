@@ -79,7 +79,6 @@ test {
 asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
-    dependsOn publishing
 }
 
 publishing {

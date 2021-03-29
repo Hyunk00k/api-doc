@@ -1,4 +1,4 @@
-package com.example.api.model;
+package com.example.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@Table(name = "api_samples")
-public class ApiSample {
+@Table(name = "api_document")
+public class ApiDocument {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,7 +23,6 @@ public class ApiSample {
     @Column(name = "description")
     private String description;
 
-    public ApiSample() {
-
+    public ApiDocument() {
     }
 }

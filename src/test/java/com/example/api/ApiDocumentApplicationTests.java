@@ -1,8 +1,8 @@
 package com.example.api;
 
-import com.example.api.controller.ApiSampleController;
-import com.example.api.model.ApiSample;
-import com.example.api.repository.ApiSampleRepository;
+import com.example.api.controller.ApiDocumentController;
+import com.example.api.dto.ApiDocument;
+import com.example.api.repository.ApiDocumentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,14 +38,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-@WebMvcTest(ApiSampleController.class)
+@WebMvcTest(ApiDocumentController.class)
 @AutoConfigureRestDocs
-class ApiSampleApplicationTests {
+class ApiDocumentApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private ApiSampleRepository apiSampleRepository;
+    private ApiDocumentRepository apiDocumentRepository;
 
 
     @BeforeEach
@@ -59,11 +59,11 @@ class ApiSampleApplicationTests {
 
         long id = 0l;
         //given
-        when(apiSampleRepository.save(any(ApiSample.class)))
-                .thenReturn(new ApiSample(id, "title", "description"));
+        when(apiDocumentRepository.save(any(ApiDocument.class)))
+                .thenReturn(new ApiDocument(id, "title", "description"));
 
         //when
-        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/api/api-sample/")
+        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/api/api-document/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":" + id + ",\"title\":\"title\",\"description\":\"description\"}")
                 .accept(MediaType.APPLICATION_JSON));
@@ -71,11 +71,11 @@ class ApiSampleApplicationTests {
         //then
         result
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/api/api-sample/" + id))
+                .andExpect(header().string("Location", "/api/api-document/" + id))
                 .andExpect(jsonPath("$.title").value("title"))
                 .andExpect(jsonPath("$.description").value("description"))
                 .andDo(print())
-                .andDo(document("api-sample-create",
+                .andDo(document("api-document-create",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -95,13 +95,13 @@ class ApiSampleApplicationTests {
     public void shouldReturnRecords() throws Exception {
 
         //given
-        ApiSample apiSample1 = new ApiSample(0, "title", "description");
-        ApiSample apiSample2 = new ApiSample(1, "title1", "description1");
-        List<ApiSample> apiSampleList = Arrays.asList(apiSample1, apiSample2);
+        ApiDocument apiDocument1 = new ApiDocument(0, "title", "description");
+        ApiDocument apiDocument2 = new ApiDocument(1, "title1", "description1");
+        List<ApiDocument> apiDocumentList = Arrays.asList(apiDocument1, apiDocument2);
 
         //when
-        when(apiSampleRepository.findAll()).thenReturn(apiSampleList);
-        ResultActions result = this.mockMvc.perform(get("/api/api-sample/")
+        when(apiDocumentRepository.findAll()).thenReturn(apiDocumentList);
+        ResultActions result = this.mockMvc.perform(get("/api/api-document/")
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -111,7 +111,7 @@ class ApiSampleApplicationTests {
                 .andExpect(jsonPath("$[0].title").value("title"))
                 .andExpect(jsonPath("$[1].title").value("title1"))
                 .andDo(print())
-                .andDo(document("api-sample-select-many",
+                .andDo(document("api-document-select-many",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }
@@ -121,12 +121,12 @@ class ApiSampleApplicationTests {
         long id = 0l;
 
         //given
-        ApiSample apiSample = new ApiSample(id, "title", "description");
+        ApiDocument apiDocument = new ApiDocument(id, "title", "description");
 
         //when
-        when(apiSampleRepository.findById(id)).thenReturn(java.util.Optional.of(apiSample));
+        when(apiDocumentRepository.findById(id)).thenReturn(java.util.Optional.of(apiDocument));
 
-        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.get("/api/api-sample/{id}", id)
+        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.get("/api/api-document/{id}", id)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -135,7 +135,7 @@ class ApiSampleApplicationTests {
                 .andExpect(jsonPath("$.title").value("title"))
                 .andExpect(jsonPath("$.description").value("description"))
                 .andDo(print())
-                .andDo(document("api-sample-select-one",
+                .andDo(document("api-document-select-one",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -153,12 +153,12 @@ class ApiSampleApplicationTests {
         long id = 0l;
 
         //given
-        ApiSample apiSample = new ApiSample(id, "title", "description");
+        ApiDocument apiDocument = new ApiDocument(id, "title", "description");
 
         //when
-        when(apiSampleRepository.findById(id)).thenReturn(java.util.Optional.of(apiSample));
+        when(apiDocumentRepository.findById(id)).thenReturn(java.util.Optional.of(apiDocument));
 
-        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.put("/api/api-sample/{id}", id)
+        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.put("/api/api-document/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\":\"string\",\"description\":\"string\"}")
                 .accept(MediaType.APPLICATION_JSON));
@@ -167,7 +167,7 @@ class ApiSampleApplicationTests {
         result
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("api-sample-update",
+                .andDo(document("api-document-update",
                         getDocumentRequest(), getDocumentResponse()));
     }
 
@@ -176,17 +176,17 @@ class ApiSampleApplicationTests {
         long id = 0l;
 
         //given
-        ApiSample apiSample = new ApiSample(id, "title", "description");
+        ApiDocument apiDocument = new ApiDocument(id, "title", "description");
 
         //when
-        when(apiSampleRepository.findById(0l)).thenReturn(java.util.Optional.of(apiSample));
-        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/api-sample/{id}", id)
+        when(apiDocumentRepository.findById(0l)).thenReturn(java.util.Optional.of(apiDocument));
+        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/api-document/{id}", id)
                 .accept(MediaType.APPLICATION_JSON));
         //then
         result
                 .andExpect(status().isNoContent())
                 .andDo(print())
-                .andDo(document("api-sample-delete", getDocumentRequest(), getDocumentResponse()));
+                .andDo(document("api-document-delete", getDocumentRequest(), getDocumentResponse()));
     }
 
 }
