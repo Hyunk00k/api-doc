@@ -1,6 +1,6 @@
 package com.example.api.controller;
 
-import com.example.api.dto.ApiDocument;
+import com.example.api.dto.ApiDocumentDto;
 import com.example.api.repository.ApiDocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,15 +19,15 @@ public class ApiDocumentController {
     ApiDocumentRepository apiDocumentRepository;
 
     @GetMapping("")
-    public ResponseEntity<List<ApiDocument>> findAll() {
-        List<ApiDocument> apiDocuments = apiDocumentRepository.findAll();
+    public ResponseEntity<List<ApiDocumentDto>> findAll() {
+        List<ApiDocumentDto> apiDocumentDtos = apiDocumentRepository.findAll();
 
-        return new ResponseEntity<>(apiDocuments, HttpStatus.OK);
+        return new ResponseEntity<>(apiDocumentDtos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiDocument> findById(@PathVariable("id") long id) {
-        Optional<ApiDocument> apiDocuments = apiDocumentRepository.findById(id);
+    public ResponseEntity<ApiDocumentDto> findById(@PathVariable("id") long id) {
+        Optional<ApiDocumentDto> apiDocuments = apiDocumentRepository.findById(id);
 
         if (apiDocuments.isPresent()) {
             return new ResponseEntity<>(apiDocuments.get(), HttpStatus.OK);
@@ -37,27 +37,27 @@ public class ApiDocumentController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ApiDocument> createApiDocument(@RequestBody ApiDocument apiDocument, HttpServletResponse httpResponse,
-                                                       WebRequest request) {
-        ApiDocument _apiDocument
-                = apiDocumentRepository.save(apiDocument);
+    public ResponseEntity<ApiDocumentDto> createApiDocument(@RequestBody ApiDocumentDto apiDocumentDto, HttpServletResponse httpResponse,
+                                                            WebRequest request) {
+        ApiDocumentDto _apiDocumentDto
+                = apiDocumentRepository.save(apiDocumentDto);
 
         httpResponse.setStatus(HttpStatus.CREATED.value());
         httpResponse.setHeader("Location", String.format("%s/api/api-document/%s",
-                request.getContextPath(), apiDocument.getId()));
+                request.getContextPath(), apiDocumentDto.getId()));
 
-        return new ResponseEntity<>(_apiDocument, HttpStatus.CREATED);
+        return new ResponseEntity<>(_apiDocumentDto, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiDocument> updateApiDocument(@PathVariable("id") long id, @RequestBody ApiDocument apiDocument) {
-        Optional<ApiDocument> apiDocumentData = apiDocumentRepository.findById(id);
+    public ResponseEntity<ApiDocumentDto> updateApiDocument(@PathVariable("id") long id, @RequestBody ApiDocumentDto apiDocumentDto) {
+        Optional<ApiDocumentDto> apiDocumentData = apiDocumentRepository.findById(id);
         if (apiDocumentData.isPresent()) {
-            ApiDocument _apiDocument = apiDocumentData.get();
-            _apiDocument.setTitle(apiDocument.getTitle());
-            _apiDocument.setDescription(apiDocument.getDescription());
+            ApiDocumentDto _apiDocumentDto = apiDocumentData.get();
+            _apiDocumentDto.setTitle(apiDocumentDto.getTitle());
+            _apiDocumentDto.setDescription(apiDocumentDto.getDescription());
 
-            return new ResponseEntity<>(apiDocumentRepository.save(_apiDocument), HttpStatus.OK);
+            return new ResponseEntity<>(apiDocumentRepository.save(_apiDocumentDto), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -65,7 +65,7 @@ public class ApiDocumentController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiDocument> deleteApiDocument(@PathVariable("id") long id) {
+    public ResponseEntity<ApiDocumentDto> deleteApiDocument(@PathVariable("id") long id) {
         try {
             apiDocumentRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

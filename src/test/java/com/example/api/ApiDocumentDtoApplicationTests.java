@@ -1,7 +1,7 @@
 package com.example.api;
 
 import com.example.api.controller.ApiDocumentController;
-import com.example.api.dto.ApiDocument;
+import com.example.api.dto.ApiDocumentDto;
 import com.example.api.repository.ApiDocumentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @WebMvcTest(ApiDocumentController.class)
 @AutoConfigureRestDocs
-class ApiDocumentApplicationTests {
+class ApiDocumentDtoApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -59,8 +59,8 @@ class ApiDocumentApplicationTests {
 
         long id = 0l;
         //given
-        when(apiDocumentRepository.save(any(ApiDocument.class)))
-                .thenReturn(new ApiDocument(id, "title", "description"));
+        when(apiDocumentRepository.save(any(ApiDocumentDto.class)))
+                .thenReturn(new ApiDocumentDto(id, "title", "description"));
 
         //when
         ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/api/api-document/")
@@ -95,12 +95,12 @@ class ApiDocumentApplicationTests {
     public void shouldReturnRecords() throws Exception {
 
         //given
-        ApiDocument apiDocument1 = new ApiDocument(0, "title", "description");
-        ApiDocument apiDocument2 = new ApiDocument(1, "title1", "description1");
-        List<ApiDocument> apiDocumentList = Arrays.asList(apiDocument1, apiDocument2);
+        ApiDocumentDto apiDocumentDto1 = new ApiDocumentDto(0, "title", "description");
+        ApiDocumentDto apiDocumentDto2 = new ApiDocumentDto(1, "title1", "description1");
+        List<ApiDocumentDto> apiDocumentDtoList = Arrays.asList(apiDocumentDto1, apiDocumentDto2);
 
         //when
-        when(apiDocumentRepository.findAll()).thenReturn(apiDocumentList);
+        when(apiDocumentRepository.findAll()).thenReturn(apiDocumentDtoList);
         ResultActions result = this.mockMvc.perform(get("/api/api-document/")
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -121,10 +121,10 @@ class ApiDocumentApplicationTests {
         long id = 0l;
 
         //given
-        ApiDocument apiDocument = new ApiDocument(id, "title", "description");
+        ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
 
         //when
-        when(apiDocumentRepository.findById(id)).thenReturn(java.util.Optional.of(apiDocument));
+        when(apiDocumentRepository.findById(id)).thenReturn(java.util.Optional.of(apiDocumentDto));
 
         ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.get("/api/api-document/{id}", id)
                 .accept(MediaType.APPLICATION_JSON))
@@ -153,10 +153,10 @@ class ApiDocumentApplicationTests {
         long id = 0l;
 
         //given
-        ApiDocument apiDocument = new ApiDocument(id, "title", "description");
+        ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
 
         //when
-        when(apiDocumentRepository.findById(id)).thenReturn(java.util.Optional.of(apiDocument));
+        when(apiDocumentRepository.findById(id)).thenReturn(java.util.Optional.of(apiDocumentDto));
 
         ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.put("/api/api-document/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -176,10 +176,10 @@ class ApiDocumentApplicationTests {
         long id = 0l;
 
         //given
-        ApiDocument apiDocument = new ApiDocument(id, "title", "description");
+        ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
 
         //when
-        when(apiDocumentRepository.findById(0l)).thenReturn(java.util.Optional.of(apiDocument));
+        when(apiDocumentRepository.findById(0l)).thenReturn(java.util.Optional.of(apiDocumentDto));
         ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/api-document/{id}", id)
                 .accept(MediaType.APPLICATION_JSON));
         //then

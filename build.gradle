@@ -96,7 +96,7 @@ publishing {
 
     publications {
         documents(MavenPublication) {
-            artifact('build/asciidoc/html5/api-sample.html')
+            artifact('build/asciidoc/html5/api-document.html')
         }
     }
 

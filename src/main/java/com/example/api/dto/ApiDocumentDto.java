@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @Table(name = "api_document")
-public class ApiDocument {
+public class ApiDocumentDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +23,6 @@ public class ApiDocument {
     @Column(name = "description")
     private String description;
 
-    public ApiDocument() {
+    public ApiDocumentDto() {
     }
 }
