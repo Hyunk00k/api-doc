@@ -2,19 +2,26 @@ package com.example.api.controller;
 
 import com.example.api.dto.ApiDocumentDto;
 import com.example.api.repository.ApiDocumentRepository;
+import java.util.List;
+import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/api-document")
 public class ApiDocumentController {
+
     @Autowired
     ApiDocumentRepository apiDocumentRepository;
 
@@ -37,20 +44,22 @@ public class ApiDocumentController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ApiDocumentDto> createApiDocument(@RequestBody ApiDocumentDto apiDocumentDto, HttpServletResponse httpResponse,
-                                                            WebRequest request) {
+    public ResponseEntity<ApiDocumentDto> createApiDocument(
+        @RequestBody ApiDocumentDto apiDocumentDto, HttpServletResponse httpResponse,
+        WebRequest request) {
         ApiDocumentDto _apiDocumentDto
-                = apiDocumentRepository.save(apiDocumentDto);
+            = apiDocumentRepository.save(apiDocumentDto);
 
         httpResponse.setStatus(HttpStatus.CREATED.value());
         httpResponse.setHeader("Location", String.format("%s/api/api-document/%s",
-                request.getContextPath(), apiDocumentDto.getId()));
+            request.getContextPath(), apiDocumentDto.getId()));
 
         return new ResponseEntity<>(_apiDocumentDto, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiDocumentDto> updateApiDocument(@PathVariable("id") long id, @RequestBody ApiDocumentDto apiDocumentDto) {
+    public ResponseEntity<ApiDocumentDto> updateApiDocument(@PathVariable("id") long id,
+        @RequestBody ApiDocumentDto apiDocumentDto) {
         Optional<ApiDocumentDto> apiDocumentData = apiDocumentRepository.findById(id);
         if (apiDocumentData.isPresent()) {
             ApiDocumentDto _apiDocumentDto = apiDocumentData.get();
@@ -73,5 +82,4 @@ public class ApiDocumentController {
             return new ResponseEntity<>((HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
-
 }

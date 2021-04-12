@@ -14,31 +14,37 @@ endif::[]
 == GET
 
 === [CURL Commnad]
+
 include::{snippets}/api-document-select-one/curl-request.adoc[]
 httpie-request.adoc
 
 === [Request URL & Headers]
+
 include::{snippets}/api-document-select-one/http-request.adoc[]
 
 === [Path Parameters]
+
 include::{snippets}/api-document-select-one/path-parameters.adoc[]
 
-
 === [Response Fields]
+
 include::{snippets}/api-document-select-one/http-response.adoc[]
 include::{snippets}/api-document-select-one/response-fields.adoc[]
 
 == POST
 
 === [CURL Commnad]
+
 include::{snippets}/api-document-create/curl-request.adoc[]
 httpie-request.adoc
 
 === [Request URL & Headers]
+
 include::{snippets}/api-document-create/http-request.adoc[]
 include::{snippets}/api-document-create/request-fields.adoc[]
 
 === [Response Fields]
+
 include::{snippets}/api-document-create/http-response.adoc[]
 include::{snippets}/api-document-create/request-fields.adoc[]
 
