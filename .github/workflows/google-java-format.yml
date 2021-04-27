@@ -18,7 +18,6 @@ jobs:
       - uses: axel-op/googlejavaformat-action@v3
         with:
           args: "-a -r"
-          skipCommit: true
           
           # Recommended if you use MacOS:
           # githubToken: ${{ secrets.GITHUB_TOKEN }}
