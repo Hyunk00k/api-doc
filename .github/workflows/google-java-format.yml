@@ -15,5 +15,7 @@ jobs:
       - uses: axel-op/googlejavaformat-action@v3
         with:
           args: "--skip-sorting-imports --replace"
+          version: 11
+          files: "**/*.java"
           # Recommended if you use MacOS:
           # githubToken: ${{ secrets.GITHUB_TOKEN }}
