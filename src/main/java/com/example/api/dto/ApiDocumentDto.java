@@ -13,15 +13,15 @@ import javax.persistence.*;
 @Table(name = "api_document")
 public class ApiDocumentDto {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-  @Column(name = "title")
-  private String title;
+    @Column(name = "title")
+    private String title;
 
-  @Column(name = "description")
-  private String description;
+    @Column(name = "description")
+    private String description;
 
-  public ApiDocumentDto() {}
+    public ApiDocumentDto() {}
 }
