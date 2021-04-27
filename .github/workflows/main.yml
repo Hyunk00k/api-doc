@@ -1,42 +1,19 @@
-name: Test
+# Example workflow
+name: Format
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  tests-with-token:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        java-version: [11]
-        version: ["1.6", ""]
-    runs-on: ${{ matrix.os }}
+
+  formatting:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - uses: actions/checkout@v2 # v2 minimum required
+      - uses: axel-op/googlejavaformat-action@v3
         with:
-          java-version: ${{ matrix.java-version }}
-      - uses: ./
-        with:
-          skipCommit: true
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ matrix.version }}
-  
-  tests-without-token:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        java-version: [11]
-        version: ["1.6", ""]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: ${{ matrix.java-version }}
-      - uses: ./
-        continue-on-error: ${{ matrix.os == 'macos-latest' }}
-        with:
-          skipCommit: true
-          version: ${{ matrix.version }}
+          args: "--skip-sorting-imports --replace"
+          # Recommended if you use MacOS:
+          # githubToken: ${{ secrets.GITHUB_TOKEN }}
