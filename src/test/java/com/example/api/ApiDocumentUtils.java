@@ -14,6 +14,6 @@ public interface ApiDocumentUtils {
   }
 
   static OperationResponsePreprocessor getDocumentResponse() {
-    return preprocessResponse(prettyPrint());
+      return preprocessResponse(prettyPrint());
   }
 }
