@@ -44,156 +44,185 @@ import java.util.List;
 @AutoConfigureRestDocs
 class ApiDocumentDtoApplicationTests {
 
-  @Autowired private MockMvc mockMvc;
-  @MockBean private ApiDocumentRepository apiDocumentRepository;
+    @Autowired private MockMvc mockMvc;
+    @MockBean private ApiDocumentRepository apiDocumentRepository;
 
-  @BeforeEach
-  public void setUp(
-      WebApplicationContext webApplicationContext,
-      RestDocumentationContextProvider restDocumentation) {
-    this.mockMvc =
-        MockMvcBuilders.webAppContextSetup(webApplicationContext)
-            .apply(documentationConfiguration(restDocumentation))
-            .build();
-  }
+    @BeforeEach
+    public void setUp(
+            WebApplicationContext webApplicationContext,
+            RestDocumentationContextProvider restDocumentation) {
+        this.mockMvc =
+                MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                        .apply(documentationConfiguration(restDocumentation))
+                        .build();
+    }
 
-  @Test
-  public void shouldCreateRecord() throws Exception {
+    @Test
+    public void shouldCreateRecord() throws Exception {
 
-    long id = 0l;
-    // given
-    when(apiDocumentRepository.save(any(ApiDocumentDto.class)))
-        .thenReturn(new ApiDocumentDto(id, "title", "description"));
+        long id = 0l;
+        // given
+        when(apiDocumentRepository.save(any(ApiDocumentDto.class)))
+                .thenReturn(new ApiDocumentDto(id, "title", "description"));
 
-    // when
-    ResultActions result =
-        this.mockMvc.perform(
-            RestDocumentationRequestBuilders.post("/api/api-document/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":" + id + ",\"title\":\"title\",\"description\":\"description\"}")
-                .accept(MediaType.APPLICATION_JSON));
+        // when
+        ResultActions result =
+                this.mockMvc.perform(
+                        RestDocumentationRequestBuilders.post("/api/api-document/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(
+                                        "{\"id\":"
+                                                + id
+                                                + ",\"title\":\"title\",\"description\":\"description\"}")
+                                .accept(MediaType.APPLICATION_JSON));
 
-    // then
-    result
-        .andExpect(status().isCreated())
-        .andExpect(header().string("Location", "/api/api-document/" + id))
-        .andExpect(jsonPath("$.title").value("title"))
-        .andExpect(jsonPath("$.description").value("description"))
-        .andDo(print())
-        .andDo(
-            document(
-                "api-document-create",
-                getDocumentRequest(),
-                getDocumentResponse(),
-                pathParameters(),
-                requestFields(
-                    fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
-                    fieldWithPath("title").type(JsonFieldType.STRING).description("タイトル"),
-                    fieldWithPath("description").type(JsonFieldType.STRING).description("説明")),
-                responseFields(
-                    fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
-                    fieldWithPath("title").type(JsonFieldType.STRING).description("タイトル"),
-                    fieldWithPath("description").type(JsonFieldType.STRING).description("説明"))));
-  }
+        // then
+        result.andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/api/api-document/" + id))
+                .andExpect(jsonPath("$.title").value("title"))
+                .andExpect(jsonPath("$.description").value("description"))
+                .andDo(print())
+                .andDo(
+                        document(
+                                "api-document-create",
+                                getDocumentRequest(),
+                                getDocumentResponse(),
+                                pathParameters(),
+                                requestFields(
+                                        fieldWithPath("id")
+                                                .type(JsonFieldType.NUMBER)
+                                                .description("ID"),
+                                        fieldWithPath("title")
+                                                .type(JsonFieldType.STRING)
+                                                .description("タイトル"),
+                                        fieldWithPath("description")
+                                                .type(JsonFieldType.STRING)
+                                                .description("説明")),
+                                responseFields(
+                                        fieldWithPath("id")
+                                                .type(JsonFieldType.NUMBER)
+                                                .description("ID"),
+                                        fieldWithPath("title")
+                                                .type(JsonFieldType.STRING)
+                                                .description("タイトル"),
+                                        fieldWithPath("description")
+                                                .type(JsonFieldType.STRING)
+                                                .description("説明"))));
+    }
 
-  @Test
-  public void shouldReturnRecords() throws Exception {
+    @Test
+    public void shouldReturnRecords() throws Exception {
 
-    // given
-    ApiDocumentDto apiDocumentDto1 = new ApiDocumentDto(0, "title", "description");
-    ApiDocumentDto apiDocumentDto2 = new ApiDocumentDto(1, "title1", "description1");
-    List<ApiDocumentDto> apiDocumentDtoList = Arrays.asList(apiDocumentDto1, apiDocumentDto2);
+        // given
+        ApiDocumentDto apiDocumentDto1 = new ApiDocumentDto(0, "title", "description");
+        ApiDocumentDto apiDocumentDto2 = new ApiDocumentDto(1, "title1", "description1");
+        List<ApiDocumentDto> apiDocumentDtoList = Arrays.asList(apiDocumentDto1, apiDocumentDto2);
 
-    // when
-    when(apiDocumentRepository.findAll()).thenReturn(apiDocumentDtoList);
-    ResultActions result =
-        this.mockMvc.perform(get("/api/api-document/").accept(MediaType.APPLICATION_JSON));
+        // when
+        when(apiDocumentRepository.findAll()).thenReturn(apiDocumentDtoList);
+        ResultActions result =
+                this.mockMvc.perform(get("/api/api-document/").accept(MediaType.APPLICATION_JSON));
 
-    // then
-    result
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$[0].title").value("title"))
-        .andExpect(jsonPath("$[1].title").value("title1"))
-        .andDo(print())
-        .andDo(document("api-document-select-many", getDocumentRequest(), getDocumentResponse()));
-  }
+        // then
+        result.andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].title").value("title"))
+                .andExpect(jsonPath("$[1].title").value("title1"))
+                .andDo(print())
+                .andDo(
+                        document(
+                                "api-document-select-many",
+                                getDocumentRequest(),
+                                getDocumentResponse()));
+    }
 
-  @Test
-  public void shouldReturnRecord() throws Exception {
-    long id = 0l;
+    @Test
+    public void shouldReturnRecord() throws Exception {
+        long id = 0l;
 
-    // given
-    ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
+        // given
+        ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
 
-    // when
-    when(apiDocumentRepository.findById(id)).thenReturn(java.util.Optional.of(apiDocumentDto));
+        // when
+        when(apiDocumentRepository.findById(id)).thenReturn(java.util.Optional.of(apiDocumentDto));
 
-    ResultActions result =
-        this.mockMvc
-            .perform(
-                RestDocumentationRequestBuilders.get("/api/api-document/{id}", id)
-                    .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+        ResultActions result =
+                this.mockMvc
+                        .perform(
+                                RestDocumentationRequestBuilders.get("/api/api-document/{id}", id)
+                                        .accept(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
 
-    // then
-    result
-        .andExpect(jsonPath("$.title").value("title"))
-        .andExpect(jsonPath("$.description").value("description"))
-        .andDo(print())
-        .andDo(
-            document(
-                "api-document-select-one",
-                getDocumentRequest(),
-                getDocumentResponse(),
-                pathParameters(parameterWithName("id").description("ID").optional()),
-                responseFields(
-                    fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
-                    fieldWithPath("title").type(JsonFieldType.STRING).description("タイトル"),
-                    fieldWithPath("description").type(JsonFieldType.STRING).description("説明"))));
-  }
+        // then
+        result.andExpect(jsonPath("$.title").value("title"))
+                .andExpect(jsonPath("$.description").value("description"))
+                .andDo(print())
+                .andDo(
+                        document(
+                                "api-document-select-one",
+                                getDocumentRequest(),
+                                getDocumentResponse(),
+                                pathParameters(
+                                        parameterWithName("id").description("ID").optional()),
+                                responseFields(
+                                        fieldWithPath("id")
+                                                .type(JsonFieldType.NUMBER)
+                                                .description("ID"),
+                                        fieldWithPath("title")
+                                                .type(JsonFieldType.STRING)
+                                                .description("タイトル"),
+                                        fieldWithPath("description")
+                                                .type(JsonFieldType.STRING)
+                                                .description("説明"))));
+    }
 
-  @Test
-  public void shouldUpdateRecord() throws Exception {
-    long id = 0l;
+    @Test
+    public void shouldUpdateRecord() throws Exception {
+        long id = 0l;
 
-    // given
-    ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
+        // given
+        ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
 
-    // when
-    when(apiDocumentRepository.findById(id)).thenReturn(java.util.Optional.of(apiDocumentDto));
+        // when
+        when(apiDocumentRepository.findById(id)).thenReturn(java.util.Optional.of(apiDocumentDto));
 
-    ResultActions result =
-        this.mockMvc.perform(
-            RestDocumentationRequestBuilders.put("/api/api-document/{id}", id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"title\":\"string\",\"description\":\"string\"}")
-                .accept(MediaType.APPLICATION_JSON));
+        ResultActions result =
+                this.mockMvc.perform(
+                        RestDocumentationRequestBuilders.put("/api/api-document/{id}", id)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"title\":\"string\",\"description\":\"string\"}")
+                                .accept(MediaType.APPLICATION_JSON));
 
-    // then
-    result
-        .andExpect(status().isOk())
-        .andDo(print())
-        .andDo(document("api-document-update", getDocumentRequest(), getDocumentResponse()));
-  }
+        // then
+        result.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(
+                        document(
+                                "api-document-update",
+                                getDocumentRequest(),
+                                getDocumentResponse()));
+    }
 
-  @Test
-  public void shouldDeleteRecord() throws Exception {
-    long id = 0l;
+    @Test
+    public void shouldDeleteRecord() throws Exception {
+        long id = 0l;
 
-    // given
-    ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
+        // given
+        ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
 
-    // when
-    when(apiDocumentRepository.findById(0l)).thenReturn(java.util.Optional.of(apiDocumentDto));
-    ResultActions result =
-        this.mockMvc.perform(
-            RestDocumentationRequestBuilders.delete("/api/api-document/{id}", id)
-                .accept(MediaType.APPLICATION_JSON));
-    // then
-    result
-        .andExpect(status().isNoContent())
-        .andDo(print())
-        .andDo(document("api-document-delete", getDocumentRequest(), getDocumentResponse()));
-  }
+        // when
+        when(apiDocumentRepository.findById(0l)).thenReturn(java.util.Optional.of(apiDocumentDto));
+        ResultActions result =
+                this.mockMvc.perform(
+                        RestDocumentationRequestBuilders.delete("/api/api-document/{id}", id)
+                                .accept(MediaType.APPLICATION_JSON));
+        // then
+        result.andExpect(status().isNoContent())
+                .andDo(print())
+                .andDo(
+                        document(
+                                "api-document-delete",
+                                getDocumentRequest(),
+                                getDocumentResponse()));
+    }
 }
