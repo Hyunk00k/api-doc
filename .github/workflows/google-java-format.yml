@@ -17,8 +17,8 @@ jobs:
       - uses: actions/checkout@v2 # v2 minimum required
       - uses: axel-op/googlejavaformat-action@v3
         with:
-          args: "-a --skip-javadoc-formatting"
-          skipCommit: true
+          args: "-a -r"
+          skipCommit: false
           
           # Recommended if you use MacOS:
           # githubToken: ${{ secrets.GITHUB_TOKEN }}
