@@ -19,6 +19,5 @@ jobs:
         with:
           args: "--skip-sorting-imports --set-exit-if-changed"
           version: 1.10.0
-          files: "**/*.{java,yml,xml}"
           # Recommended if you use MacOS:
           # githubToken: ${{ secrets.GITHUB_TOKEN }}
