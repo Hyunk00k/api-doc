@@ -31,18 +31,6 @@ jobs:
         os: [ ubuntu-latest ]
         java: [ 11 ]
         experimental: [ false ]
-        include:
-          # Only test on macos and windows with a single recent JDK to avoid a
-          # combinatorial explosion of test configurations.
-          - os: macos-latest
-            java: 16
-            experimental: false
-          - os: windows-latest
-            java: 16
-            experimental: false
-          - os: ubuntu-latest
-            java: 17-ea
-            experimental: true
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     steps:
