@@ -1,4 +1,4 @@
-name: "Lint PR"
+name: "PR Title Checker"
 
 on:
   pull_request_target:
@@ -20,13 +20,19 @@ jobs:
           # Configure which types are allowed.
           # Default: https://github.com/commitizen/conventional-commit-types
           types: |
-            fix
             feat
+            fix
+            docs
             style
+            refactor
+            perf
+            test
+            chore
+            try
           # Configure which scopes are allowed.
           scopes: |
-            core
             ui
+            core
             price
             batch
           # Configure that a scope must always be provided.
