@@ -16,7 +16,9 @@ jobs:
       - uses: axel-op/googlejavaformat-action@v3
         with:
           skipCommit: true
-          args: "--skip-sorting-imports --set-exit-if-changed -n"
+          args: "--skip-sorting-imports --replace"
+
+          #args: "--skip-sorting-imports --set-exit-if-changed -n"
           
           
           # Recommended if you use MacOS:
