@@ -2,9 +2,6 @@
 name: Format
 
 on:
-  push:
-    branches:
-    - main
   pull_request:
     branches:
     - main
@@ -19,7 +16,7 @@ jobs:
       - uses: axel-op/googlejavaformat-action@v3
         with:
           skipCommit: true
-          args: "--skip-sorting-imports -a --set-exit-if-changed -n"
+          args: "--skip-sorting-imports --set-exit-if-changed -n"
           
           
           # Recommended if you use MacOS:
