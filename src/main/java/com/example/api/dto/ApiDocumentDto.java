@@ -15,7 +15,7 @@ public class ApiDocumentDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+       private long id;
 
     @Column(name = "title")
     private String title;
