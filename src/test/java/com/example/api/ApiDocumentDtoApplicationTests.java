@@ -208,7 +208,7 @@ class ApiDocumentDtoApplicationTests {
         long id = 0l;
 
         // given
-        ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
+       　　 ApiDocumentDto apiDocumentDto = new ApiDocumentDto(id, "title", "description");
 
         // when
         when(apiDocumentRepository.findById(0l)).thenReturn(java.util.Optional.of(apiDocumentDto));
